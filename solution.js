@@ -7,21 +7,11 @@ button.addEventListener('click', function(){
 })
 
 function getRandomJoke(){
-    const ajax = new XMLHttpRequest;
-    const url = 'https://api.chucknorris.io/jokes/random'
-
-    ajax.open('GET', url, true);
-
-    ajax.onreadystatechange = function(){
-        if(this.status === 200 && this.readyState === 4){
-            console.log(this.responseText);
-            let data = JSON.parse(this.responseText);
-            jokeDIV.innerHTML = `${data.value}`
-        } else {
-            this.onerror = onerror();
-        }
-    }
-    ajax.send();
+    fetch('https://api.chucknorris.io/jokes/random')
+    //Promesas
+    .then(response => response.json()) //Transformamos la respuesta y la mandamos al siguiente then
+    .then(data => jokeDIV.innerHTML = `${data.value}`); // Si tenemos que poner muchas cosas es mejor poner aquí una función y marcar en la función lo que queremos que se haga con los datos
+    //catch(error => console.log(error)) --- Si algo va mal lo capturamos con el catch. En este caso solo se mostraría el error por consola.
 }
 
 function onerror(){
